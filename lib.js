@@ -75,18 +75,18 @@ var w = window, d = document;
 				 parseFloat(computedStyle.paddingBottom));
 		},
 		
-		data: function(object, ttl) {				                        // ttl - time to live		
-			if (object) {                                                   // set data
+		data: function(object, ttl) {	                        	
+			if (object) {
 				var k, v = this.selector.nodeStorage ? this.selector.nodeStorage : {};
 				for (k in object)
 					v[k] = object[k];
 				this.selector.nodeStorage = v;
-				if (ttl) this.selector.Timer = setTimeout((function(self) { // ttl remove data
+				if (ttl) this.selector.Timer = setTimeout((function(self) {
 					delete(self.selector.nodeStorage) && 
 						delete(self.selector.Timer); })(this), ttl);			
-			} else if (object === false)                                    // remove data
+			} else if (object === false)
 				return delete(this.selector.nodeStorage); 
-			else return this.selector.nodeStorage;                          // get data
+			else return this.selector.nodeStorage;
 		},
 		
 		listProcess: function(name, args) {
@@ -100,20 +100,17 @@ var w = window, d = document;
 		addClass: function(token) {
 			if (!this.selector.nodeType)
 				return this.listProcess("addClass", arguments);
-			if (!this.selector.classList.contains(token))
-				return this.selector.className += 
-					this.selector.className == null ? token : " " + token;
+			return this.selector.classList.add(token);
 		},
 
 		removeClass: function(token) {
 			if (!this.selector.nodeType)
 				return this.listProcess("removeClass", arguments);
-			return this.selector.className = this.selector.className.
-				replace(new RegExp(token + " | " + token), "");
+			this.selector.classList.remove(token);
 		},
 		
 		hasClass: function(token) {
-			return (' ' + this.selector.className + ' ').indexOf(' ' + token + ' ') > -1;
+			return this.selector.classList.contains(token);
 		},
 		
 		css: function(mixed, value) {
